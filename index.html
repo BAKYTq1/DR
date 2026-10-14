@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ky">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Дастан, туулган күнүң менен!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#1b1038; --plum2:#2a1858; --coral:#ff5c7a; --sun:#ffd23f; --mint:#3ddbb0; --paper:#fff6e9;
+  --display:'Unbounded','Arial Black',system-ui,sans-serif; --body:'Manrope',system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--plum:#1b1038}}
+:root[data-theme="dark"]{--plum:#1b1038}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plum);color:var(--paper);font-family:var(--body);font-size:1.1rem;line-height:1.6;overflow-x:hidden}
+body.locked{overflow:hidden;height:100%}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
+
+/* gate */
+#gate{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;padding:2rem;text-align:center;
+  background:radial-gradient(circle at 50% 60%,var(--plum2),var(--plum) 70%);transition:transform 1s cubic-bezier(.7,0,.2,1)}
+#gate.open{transform:translateY(-105%)}
+#gate p{font-family:var(--display);font-weight:500;font-size:clamp(1.2rem,4.5vw,2rem);margin:0;max-width:18ch;line-height:1.3}
+#openBtn{width:clamp(150px,40vw,200px);aspect-ratio:1;border-radius:50%;border:0;background:var(--coral);color:var(--plum);
+  font-family:var(--display);font-weight:800;font-size:1.15rem;animation:pulse 1.8s ease-in-out infinite;box-shadow:0 0 0 0 rgba(255,92,122,.6)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,92,122,.55)}70%{box-shadow:0 0 0 34px rgba(255,92,122,0)}100%{box-shadow:0 0 0 0 rgba(255,92,122,0)}}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:6vh 5vw;position:relative}
+.hero .top{font-family:var(--display);font-weight:500;font-size:clamp(1.1rem,4vw,2.2rem);margin:0 0 1rem}
+.name{font-family:var(--display);font-weight:800;font-size:clamp(3rem,15.5vw,12rem);line-height:1;margin:0;letter-spacing:-.03em;white-space:nowrap}
+.l{display:inline-block;transition:transform .25s cubic-bezier(.3,1.8,.5,1);cursor:default}
+.l:hover{transform:translateY(-.12em) rotate(-6deg) scale(1.08)}
+.l:nth-child(4n+1){color:var(--coral)}.l:nth-child(4n+2){color:var(--sun)}.l:nth-child(4n+3){color:var(--mint)}.l:nth-child(4n){color:var(--paper)}
+body.on .l{animation:drop .9s cubic-bezier(.2,1.5,.4,1) backwards;animation-delay:calc(var(--i)*110ms + 500ms)}
+@keyframes drop{from{transform:translateY(-110vh) rotate(-25deg);opacity:0}}
+.hero .sub{max-width:34ch;margin:2rem 0 0;font-size:clamp(1.05rem,2.4vw,1.35rem);opacity:.85}
+.hint{position:absolute;left:5vw;bottom:4vh;font-size:.95rem;opacity:.6}
+
+/* wishes */
+.wishes{padding:12vh 5vw;display:grid;gap:clamp(2.5rem,7vw,5rem)}
+.wishes p{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(1.35rem,4.2vw,2.6rem);line-height:1.25;max-width:22ch;letter-spacing:-.01em}
+.wishes p:nth-child(even){margin-left:auto;text-align:right}
+.wishes p:nth-child(1){color:var(--coral)}.wishes p:nth-child(2){color:var(--sun)}.wishes p:nth-child(3){color:var(--mint)}.wishes p:nth-child(4){color:var(--paper)}.wishes p:nth-child(5){color:var(--coral)}
+.wishes p.in{animation:rise .8s ease backwards}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+
+/* cake */
+.cake{padding:10vh 5vw 14vh;text-align:center;background:linear-gradient(var(--plum),var(--plum2))}
+.cake h2{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,6vw,3.2rem);margin:0 0 .5rem;line-height:1.15}
+.cake .lead{margin:0 auto 2rem;max-width:36ch;opacity:.85}
+#cakeBtn{background:none;border:0;padding:0;width:min(78vw,340px)}
+#cakeBtn svg{width:100%;height:auto;overflow:visible}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate;transition:opacity .35s}
+.out .flame{opacity:0;animation:none}
+@keyframes flick{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.92,1.08) rotate(3deg)}}
+.smoke{opacity:0}
+.out .smoke{animation:smoke 2s ease-out}
+@keyframes smoke{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+#msg{min-height:7.5rem;margin:1.5rem auto 0;max-width:30ch;font-family:var(--display);font-weight:500;font-size:clamp(1.1rem,3.4vw,1.6rem);line-height:1.35;color:var(--sun)}
+#again{margin-top:1rem;background:none;border:2px solid var(--paper);color:var(--paper);border-radius:99px;padding:.6rem 1.4rem;display:none}
+.out ~ #again,#again.show{display:inline-block}
+
+#mic{margin:0 0 2rem;background:var(--sun);color:var(--plum);border:0;border-radius:99px;padding:.9rem 1.8rem;font-family:var(--display);font-weight:500;font-size:1rem}
+footer{padding:8vh 5vw calc(8vh + env(safe-area-inset-bottom,0px));text-align:center;font-family:var(--display);font-weight:500;font-size:clamp(1rem,3vw,1.4rem)}
+footer span{color:var(--coral)}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:100}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="locked">
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div id="gate">
+  <p>Дастан, сен үчүн сюрприз бар</p>
+  <button id="openBtn" type="button">Ач</button>
+</div>
+
+<main>
+  <section class="hero">
+    <p class="top">Туулган күнүң менен,</p>
+    <h1 class="name" id="name" aria-label="Дастан"></h1>
+    <p class="sub">Бул барак сен үчүн гана жасалды. Ылдый түш, эң керектүүсү ошол жерде.</p>
+    <span class="hint">Тамгаларга тийип көр, алар тирүү</span>
+  </section>
+
+  <section class="wishes" id="wishes">
+    <p>Бул жылы ойлогонуңдун баары биринчи жолу эле ишке ашсын.</p>
+    <p>Жаныңда дайыма чын жүрөктөн ойлогон жакшы достор болсун.</p>
+    <p>Керектүүгө да, кыялыңа да акчаң жетсин.</p>
+    <p>Ар бир таң кечээгиден жакшыраак болсун.</p>
+    <p>Көп жаша, Дастан! Ден соолугуң чың, жолуң шыдыр болсун!</p>
+  </section>
+
+  <section class="cake">
+    <h2>Тилек тиле</h2>
+    <p class="lead">Шамдарды чындап эле үйлөп өчүр: баскычты бас да, телефонго үйлө. Же болбосо тортко бас.</p>
+    <button id="mic" type="button">Микрофонго үйлө</button>
+    <div id="cakeWrap">
+      <button id="cakeBtn" type="button" aria-label="Шамдарды өчүр">
+        <svg viewBox="0 0 260 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <ellipse cx="130" cy="256" rx="124" ry="11" fill="#fff6e9" opacity=".9"/>
+          <rect x="40" y="170" width="180" height="84" rx="14" fill="#ff5c7a"/>
+          <rect x="70" y="118" width="120" height="56" rx="12" fill="#ffd23f"/>
+          <path d="M70 118h120v10q-10 16-20 0t-20 0t-20 0t-20 0t-20 0t-20 0z" fill="#3ddbb0"/>
+          <path d="M40 170h180v12q-10 16-20 0t-20 0t-20 0t-20 0t-20 0t-20 0t-20 0t-20 0t-20 0z" fill="#3ddbb0"/>
+          <g fill="#fff6e9"><circle cx="70" cy="214" r="4"/><circle cx="110" cy="226" r="4"/><circle cx="152" cy="212" r="4"/><circle cx="192" cy="228" r="4"/><circle cx="92" cy="148" r="3.5"/><circle cx="165" cy="150" r="3.5"/></g>
+          <g id="candles"></g>
+          
+          
+        </svg>
+      </button>
+    </div>
+    <p id="msg" aria-live="polite"></p>
+    <button id="again" type="button">Кайра жандыр</button>
+  </section>
+</main>
+
+<footer>Туулган күнүң менен, Дастан! Көп жаша! <span>Сен мыкты доссуң.</span></footer>
+
+<script>
+const NAME = 'Дастан';
+const $ = s => document.querySelector(s);
+const COLORS = ['#ff5c7a','#ffd23f','#3ddbb0','#fff6e9','#7aa2ff'];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// name letters
+$('#name').innerHTML = [...NAME].map((c,i)=>`<span class="l" style="--i:${i}">${c}</span>`).join('');
+
+// particles
+const cv = $('#fx'), cx = cv.getContext('2d'); let P = [], running = false, W, H, dpr;
+function size(){ dpr = Math.min(devicePixelRatio||1,2); W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0); }
+size(); addEventListener('resize', size);
+const rnd = (a,b) => a + Math.random()*(b-a);
+const pick = () => COLORS[Math.floor(Math.random()*COLORS.length)];
+
+function confetti(x,y,n,angle,spread,power){
+  n = reduce ? Math.ceil(n/4) : n;
+  for(let i=0;i<n;i++){
+    const a = angle + rnd(-spread,spread), s = rnd(power*.4,power);
+    P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,g:.22,life:rnd(110,190),max:190,w:rnd(6,11),h:rnd(4,7),r:rnd(0,6),vr:rnd(-.3,.3),c:pick(),t:'r',drag:.985});
+  }
+  go();
+}
+function firework(x,y){
+  const c1 = pick(), n = reduce ? 18 : 70;
+  for(let i=0;i<n;i++){
+    const a = i/n*Math.PI*2, s = rnd(2,7);
+    P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,g:.07,life:rnd(55,95),max:95,w:rnd(2,3.5),c:Math.random()<.7?c1:pick(),t:'c',drag:.97});
+  }
+  go();
+}
+function go(){ if(!running){ running = true; requestAnimationFrame(tick); } }
+function tick(){
+  cx.clearRect(0,0,W,H);
+  P = P.filter(p => p.life > 0 && p.y < H+40);
+  for(const p of P){
+    p.vy += p.g; p.vx *= p.drag; p.vy *= p.drag; p.x += p.vx; p.y += p.vy; p.life--;
+    cx.globalAlpha = Math.min(1, p.life/40); cx.fillStyle = p.c;
+    if(p.t==='r'){ p.r += p.vr; cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillRect(-p.w/2,-p.h/2,p.w,p.h); cx.restore(); }
+    else { cx.beginPath(); cx.arc(p.x,p.y,p.w,0,7); cx.fill(); }
+  }
+  cx.globalAlpha = 1;
+  if(P.length) requestAnimationFrame(tick); else running = false;
+}
+
+// gate
+$('#openBtn').addEventListener('click', () => {
+  $('#gate').classList.add('open');
+  document.body.classList.remove('locked');
+  document.body.classList.add('on');
+  setTimeout(()=>{
+    confetti(0,H,90,-Math.PI/3,.5,22);
+    confetti(W,H,90,-Math.PI*2/3,.5,22);
+  },300);
+  setTimeout(()=>{ confetti(W/2,H*.3,120,-Math.PI/2,Math.PI,14); },1500);
+  setTimeout(()=>{ $('#gate').style.display='none'; },1200);
+});
+// big click on name
+$('#name').addEventListener('click', e => confetti(e.clientX,e.clientY,50,-Math.PI/2,Math.PI,10));
+
+// wishes reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.4});
+document.querySelectorAll('#wishes p').forEach(p => io.observe(p));
+
+// cake
+const wrap = $('#cakeWrap'), msg = $('#msg'), again = $('#again'), micBtn = $('#mic');
+$('#candles').innerHTML = [-40,0,40].map((dx,i)=>`<g transform="translate(${dx} 0)"><rect x="123" y="76" width="14" height="44" rx="4" fill="#fff6e9"/><rect x="123" y="92" width="14" height="6" fill="#ff5c7a" opacity=".6"/><path class="smoke" d="M130 70c-8-10 8-16 0-26s8-14 2-24" fill="none" stroke="#fff6e9" stroke-width="3" stroke-linecap="round"/><g class="flame" style="animation-delay:-${i*.17}s"><path d="M130 34c-11 16-14 28 0 40 14-12 11-24 0-40z" fill="#ffd23f"/><path d="M130 52c-5 8-6 14 0 20 6-6 5-12 0-20z" fill="#ff5c7a"/></g></g>`).join('');
+function blow(){
+  if(wrap.classList.contains('out')) return;
+  wrap.classList.add('out');
+  const r = $('#cakeBtn').getBoundingClientRect();
+  confetti(r.left+r.width/2, r.top+r.height*.3, 100, -Math.PI/2, Math.PI*.6, 15);
+  [0,350,700,1050,1400].forEach(t => setTimeout(()=> firework(rnd(W*.15,W*.85), rnd(H*.15,H*.5)), t));
+  msg.textContent = 'Тилек тилендиң. Эми ал аткарылат, ' + NAME + '. Көп жаша!';
+  again.classList.add('show'); micBtn.style.display = 'none';
+}
+$('#cakeBtn').addEventListener('click', blow);
+again.addEventListener('click', () => { wrap.classList.remove('out'); msg.textContent=''; again.classList.remove('show'); micBtn.style.display=''; micBtn.textContent='Микрофонго үйлө'; });
+
+// real blowing via microphone
+let stream, actx, listening = false;
+function stopMic(){ listening = false; if(stream) stream.getTracks().forEach(t=>t.stop()); if(actx) actx.close(); stream = actx = null; }
+micBtn.addEventListener('click', async () => {
+  if(listening) return;
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+    actx = new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended') await actx.resume();
+    const an = actx.createAnalyser(); an.fftSize = 1024;
+    actx.createMediaStreamSource(stream).connect(an);
+    const buf = new Uint8Array(an.fftSize); let hot = 0; listening = true;
+    micBtn.textContent = 'Угуп жатам… телефонго үйлө!';
+    (function loop(){
+      if(!listening) return;
+      an.getByteTimeDomainData(buf);
+      let s = 0; for(const v of buf){ const d=(v-128)/128; s += d*d; }
+      const rms = Math.sqrt(s/buf.length);
+      hot = rms > 0.16 ? hot+1 : Math.max(0,hot-1);
+      if(hot > 9){ stopMic(); blow(); return; }
+      requestAnimationFrame(loop);
+    })();
+  }catch(e){ micBtn.textContent = 'Микрофонго уруксат жок. Тортко бас'; }
+});
+</script>
+</body>
+</html>
